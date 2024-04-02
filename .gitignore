@@ -1,0 +1,44 @@
+
+#Ignore thumbnails created by Windows
+Thumbs.db
+#Ignore files built by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.vs/
+#Nuget packages folder
+packages/
+/.classpath
+/.project
+/.settings/org.eclipse.core.resources.prefs
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.eclipse.m2e.core.prefs
+/target/classes/META-INF/MANIFEST.MF
+/target/classes/git.properties
+/target/classes/META-INF/git.properties
+/target/quickstart-java-maven-exec-plugin-1.0.0-SNAPSHOT.jar
+/target/quickstart-java-maven-exec-plugin-1.0.0-SNAPSHOT-tests.jar
+/target/maven-archiver/pom.properties
+/target/quickstart-java-as-batch-script-1.0.0-SNAPSHOT.jar

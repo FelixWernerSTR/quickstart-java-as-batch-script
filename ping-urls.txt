@@ -1,0 +1,4 @@
+java:-version
+ping:-w:1:heise.de
+ping:-w:1:ntv.de
+ping:-w:1:heise.de.fehler

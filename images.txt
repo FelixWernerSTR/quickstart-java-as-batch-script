@@ -1,0 +1,10 @@
+alpine:3.19.1
+eclipse-temurin:11.0.22_7-jre
+eclipse-temurin:17.0.10_7-jre
+nginx:1.25.4
+tomcat:10.1.18-jre11
+tomcat:10.1.18-jre17
+tomcat:8.5.98-jre11
+tomcat:8.5.98-jre17
+tomcat:9.0.85-jre11
+tomcat:9.0.85-jre17
