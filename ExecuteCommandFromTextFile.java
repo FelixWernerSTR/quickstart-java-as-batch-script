@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 
+ * input:ping-urls.txt [
+	java:-version
+	ping:-w:1:heise.de
+	ping:-w:1:ntv.de
+	ping:-w:1:heise.de.fehler]
  */
 public class ExecuteCommandFromTextFile {
 
@@ -36,6 +40,12 @@ public class ExecuteCommandFromTextFile {
 		ProcessBuilder processBuilder = new ProcessBuilder(command);
 		Process process = processBuilder.start();
 
+		logInputAndErrorStream(process);
+
+		return process.waitFor();
+	}
+	
+	private static void logInputAndErrorStream(Process process) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		String line;
 		List<String> lines = new ArrayList<>();
@@ -45,8 +55,6 @@ public class ExecuteCommandFromTextFile {
 		}
 		writeToFile(lines,ExecuteCommandFromTextFile.class.getSimpleName() + ".ptotokoll.log");	
 		logErrors(process);
-
-		return process.waitFor();
 	}
 
 	/**

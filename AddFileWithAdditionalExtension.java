@@ -4,33 +4,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * 
- * iteriert Ueber angegebenen Verzeichnissbaum als 1. Parameter 
- * und gibt alle Dateinamen aus, die der Regular Expression entsprechen. 2. Parameter (default: (.*log4j.*))
- * 
- * kann portabel ab java11 direkt als .java aufgerufen werden: 
- * C:\[JAVA_HOME]\bin\java.exe x.java param1
- * aus .cmd/.bat: C:\[JAVA_HOME]\bin\java.exe x.java $1
- * 
- */
-public class FilesFinder extends SimpleFileVisitor<Path> {
+
+public class AddFileWithAdditionalExtension extends SimpleFileVisitor<Path> {
   
-  private static Logger logger = Logger.getLogger(FilesFinder.class.getName());
+  private static Logger logger = Logger.getLogger(AddFileWithAdditionalExtension.class.getName());
   
-  private String regex = "(*.log4j.*)";
+  private String regex = "(.*)(.groovy)";
+  
+  private String suffix = ".md"; // 2. group
+  
   private Path baseDir = Paths.get("C:/temp");
   
   public static void main(String[] args) {
     if (args.length == 2) {
-      new FilesFinder().path(Paths.get(args[0])).regex(args[1]).process();
+      new AddFileWithAdditionalExtension().path(Paths.get(args[0])).regex(args[1]).process();
     } else {
-      new FilesFinder().process();
+      new AddFileWithAdditionalExtension().process();
     }
     
   }
@@ -38,7 +33,7 @@ public class FilesFinder extends SimpleFileVisitor<Path> {
   /**
    * @param baseDir
    */
-  public FilesFinder path(Path baseDir) {
+  public AddFileWithAdditionalExtension path(Path baseDir) {
     this.baseDir = baseDir;
     return this;
   }
@@ -46,19 +41,19 @@ public class FilesFinder extends SimpleFileVisitor<Path> {
   /**
    * @param regex
    */
-  public FilesFinder regex(String regex) {
+  public AddFileWithAdditionalExtension regex(String regex) {
     this.regex = regex;
     return this;
   }
   
   public void process() {
-    logger.info("find started! :" + this.toString());
+    logger.info("renaming started! :{}" + this.toString());
     try {
       Files.walkFileTree(baseDir, this);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    logger.info("find finished!");
+    logger.info("renaming finished!");
   }
   
   @Override
@@ -75,7 +70,13 @@ public class FilesFinder extends SimpleFileVisitor<Path> {
     Matcher matcher = searchPattern.matcher(filename);
     
     if (matcher.find()) {
-      logger.info("found:" + file);
+      logger.info("found: " + file);
+      Path target = Paths.get(file + suffix);
+      try {
+        Files.copy(file, target, StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
       
     }
     return FileVisitResult.CONTINUE;
@@ -84,7 +85,7 @@ public class FilesFinder extends SimpleFileVisitor<Path> {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("FilesFinder [regex=");
+    builder.append("FilesRenamer [regex=");
     builder.append(regex);
     builder.append(", baseDir=");
     builder.append(baseDir);

@@ -10,7 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ *  Diese Klasse kann mit jedem Editor angepasst werden und 
+ *  mit Java11+ direkt aufgerufen werden: [JAVA_11_HOME]/bin/java HttpCheck
  */
 public class HttpCheck {
   private static final Logger logger = Logger.getLogger(HttpCheck.class.getName());

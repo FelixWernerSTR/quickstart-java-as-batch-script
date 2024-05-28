@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 /**
  * 
+ * 
+ * bitte als Parameter eine Text-Datei mit Liste mit Docker-Images uebergeben:[imageName:version]
+ * 
  */
 public class PullAndSaveDockerImagesAsTar {
   
@@ -38,6 +41,12 @@ public class PullAndSaveDockerImagesAsTar {
 		ProcessBuilder processBuilder = new ProcessBuilder(command);
 		Process process = processBuilder.start();
 
+		logInputAndErrorStream(process);
+
+		return process.waitFor();
+	}
+	
+	private static void logInputAndErrorStream(Process process) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		String line;
 		List<String> lines = new ArrayList<>();
@@ -45,10 +54,8 @@ public class PullAndSaveDockerImagesAsTar {
 			System.out.println(line);
 			lines.add(line);
 		}
-		writeToFile(lines,ExecuteCommandFromTextFile.class.getSimpleName() + ".ptotokoll.log");	
+		writeToFile(lines,PullAndSaveDockerImagesAsTar.class.getSimpleName() + ".ptotokoll.log");	
 		logErrors(process);
-
-		return process.waitFor();
 	}
 
 	/**
@@ -63,7 +70,7 @@ public class PullAndSaveDockerImagesAsTar {
 			errors.add(line);
 		}
 		if (!errors.isEmpty()) {
-			writeToFile(errors,ExecuteCommandFromTextFile.class.getSimpleName() + ".error.log");
+			writeToFile(errors,PullAndSaveDockerImagesAsTar.class.getSimpleName() + ".error.log");
 		}
 	}
 
